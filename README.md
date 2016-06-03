@@ -4,8 +4,6 @@ Myow is a simple commandline tool used to hook up the [Myo armband](https://www.
 
 Myow translates incoming Myo data via websockets to osc messages ready for processing by Wekinator.
 
-![Computer Cat](http://i.giphy.com/JIX9t2j0ZTN9S.gif)
-
 ### Installation
 
 Install the package globally via npm:
