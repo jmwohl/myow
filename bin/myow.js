@@ -6,21 +6,25 @@ var Myo = require('myo'),
     debug = require('debug')('myow'),
     p = require('../package.json'),
     version = p.version.split('.').shift(),
-    utils = require('../utils');
+    utils = require('../utils'),
+    udpPort;
 
 program
     .version(version)
-    .command('myow')
-    .description('Send data from Myo to Wekinator.\n  Input value can be one of [accelerometer|orientation|gyroscope|emg|imu] (default: imu)')
+    .description('Send data from Myo to Wekinator.\n\n  Input value can be one of [accelerometer|orientation|gyroscope|emg|imu] (default: imu)')
     .option('--inport [n]', 'The port on which to receive OSC data (default: 12000)', parseInt)
     .option('--outport [n]', 'The port on which to send OSC data (default: 6448', parseInt)
     .option('--inhost [value]', 'The host on which to receive OSC data (default: 127.0.0.1)')
     .option('--outhost [value]', 'The host on which to send OSC data (default: 127.0.0.1)')
+    .option('-l, --log', 'Log osc in/out to console.')
     .arguments('[input]')
     .action(function (input) {
         program.input = input;
     })
     .parse(process.argv);
+
+_setupOsc();
+_setupMyo();
 
 // Select the input stream based on commandline argument
 switch(program.input) {
@@ -42,9 +46,6 @@ switch(program.input) {
 }
 
 
-_setupOsc();
-_setupMyo();
-
 function _setupOsc () {
     // build config object
     var _opts = {
@@ -60,7 +61,7 @@ function _setupOsc () {
     debug(_opts);
 
     // Setup OSC
-    var udpPort = new osc.UDPPort(_opts);
+    udpPort = new osc.UDPPort(_opts);
 
     // Open the socket.
     udpPort.open();
@@ -68,6 +69,9 @@ function _setupOsc () {
     // log any incomming message
     udpPort.on("message", function (oscMessage) {
         debug('OSC received: ', oscMessage);
+        if (program.log) {
+            console.log('OSC received: ', oscMessage);
+        }
     });
 
     console.log('\nOSC connected.');
@@ -104,6 +108,9 @@ function initEmgStream() {
         };
 
         debug("Sending message", msg.address, msg.args, "to", udpPort.options.remoteAddress + ":" + udpPort.options.remotePort);
+        if (program.log) {
+            console.log('OSC sent: ', msg);
+        }
         udpPort.send(msg);
     });
 }
@@ -144,6 +151,9 @@ function initImuStream(accelerometer, gyroscope, orientation) {
         };
 
         debug("Sending message", msg.address, msg.args, "to", udpPort.options.remoteAddress + ":" + udpPort.options.remotePort);
+        if (program.log) {
+            console.log('OSC sent: ', msg);
+        }
         udpPort.send(msg);
     });
 }
