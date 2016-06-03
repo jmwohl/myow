@@ -1,6 +1,6 @@
 {
   "name": "myow",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Myow is an easy way to use the Myo as an input device for Wekinator.",
   "main": "cli.js",
   "scripts": {
