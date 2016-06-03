@@ -1,0 +1,23 @@
+{
+  "name": "myow",
+  "version": "0.1.0",
+  "description": "Myow is an easy way to use the Myo as an input device for Wekinator.",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmwohl/myow.git"
+  },
+  "keywords": [
+    "myo",
+    "wekinator"
+  ],
+  "author": "= <jon@jonwohl.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jmwohl/myow/issues"
+  },
+  "homepage": "https://github.com/jmwohl/myow#readme"
+}
