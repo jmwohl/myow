@@ -69,15 +69,23 @@ function _setupOsc () {
     udpPort.on("message", function (oscMessage) {
         debug('OSC received: ', oscMessage);
     });
+
+    console.log('\nOSC connected.');
+    console.log('listening: ' + _opts.localAddress + ':' + _opts.localPort);
+    console.log('sending: ' + _opts.remoteAddress + ':' + _opts.remotePort)
 }
 
 
 function _setupMyo() {
-    // Setup Myo
-    Myo.on('connected', function(){
-        debug('Myo connected');
+    Myo.on('connected', function() {
+        console.log('\n Myo connected.');
         this.streamEMG(true);
-    })
+    });
+
+    Myo.on('disconnected', function() {
+        console.log('\n Myo disconnected.');
+        this.streamEMG(false);
+    });
 
     Myo.connect('com.wohllabs.myow');
 }

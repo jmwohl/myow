@@ -4,6 +4,7 @@
   "description": "Myow is an easy way to use the Myo as an input device for Wekinator.",
   "main": "cli.js",
   "scripts": {
+    "patch-release": "npm version patch && npm publish && git push --follow-tags",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
