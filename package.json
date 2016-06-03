@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "myow": "./bin/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jmwohl/myow.git"
@@ -19,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/jmwohl/myow/issues"
   },
-  "homepage": "https://github.com/jmwohl/myow#readme"
+  "homepage": "https://github.com/jmwohl/myow#readme",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "myo": "^2.1.1",
+    "osc": "^2.1.0",
+    "ws": "^1.1.0"
+  }
 }
