@@ -17,6 +17,8 @@ program
     .option('--inhost [value]', 'The host on which to receive OSC data (default: 127.0.0.1)')
     .option('--outhost [value]', 'The host on which to send OSC data (default: 127.0.0.1)')
     .option('-l, --log', 'Log osc in/out to console.')
+    .option('--login', 'Log osc input only to console.')
+    .option('--logout', 'Log osc output only to console.')
     .arguments('[input]')
     .action(function (input) {
         program.input = input;
@@ -45,7 +47,6 @@ switch(program.input) {
         initImuStream();
 }
 
-
 function _setupOsc () {
     // build config object
     var _opts = {
@@ -69,7 +70,7 @@ function _setupOsc () {
     // log any incomming message
     udpPort.on("message", function (oscMessage) {
         debug('OSC received: ', oscMessage);
-        if (program.log) {
+        if (program.log || program.login) {
             console.log('OSC received: ', oscMessage);
         }
     });
@@ -79,10 +80,9 @@ function _setupOsc () {
     console.log('sending: ' + _opts.remoteAddress + ':' + _opts.remotePort)
 }
 
-
 function _setupMyo() {
     Myo.on('connected', function() {
-        console.log('\n Myo connected.');
+        console.log('\nMyo connected.');
         this.streamEMG(true);
     });
 
@@ -94,11 +94,6 @@ function _setupMyo() {
     Myo.connect('com.wohllabs.myow');
 }
 
-
-
-
-
-
 function initEmgStream() {
     debug('Sending raw EMG data');
     Myo.on('emg', function(data){
@@ -108,7 +103,7 @@ function initEmgStream() {
         };
 
         debug("Sending message", msg.address, msg.args, "to", udpPort.options.remoteAddress + ":" + udpPort.options.remotePort);
-        if (program.log) {
+        if (program.log || program.logout) {
             console.log('OSC sent: ', msg);
         }
         udpPort.send(msg);
@@ -142,8 +137,8 @@ function initImuStream(accelerometer, gyroscope, orientation) {
         var args = [];
 
         args = accelerometer ? args.concat(Object.values(data.accelerometer)) : args;
-        args = orientation ? args.concat(Object.values(data.orientation)) : args;
         args = gyroscope ? args.concat(Object.values(data.gyroscope)) : args;
+        args = orientation ? args.concat(Object.values(data.orientation)) : args;
 
         var msg = {
             address: "/wek/inputs",
@@ -151,7 +146,7 @@ function initImuStream(accelerometer, gyroscope, orientation) {
         };
 
         debug("Sending message", msg.address, msg.args, "to", udpPort.options.remoteAddress + ":" + udpPort.options.remotePort);
-        if (program.log) {
+        if (program.log || program.logout) {
             console.log('OSC sent: ', msg);
         }
         udpPort.send(msg);
