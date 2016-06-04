@@ -2,7 +2,7 @@
 
 Myow (probably pronounced meow) is a simple commandline tool used to hook up the [Myo armband](https://www.myo.com/) as an input to [Wekinator](http://www.wekinator.org/).
 
-There is nothing complicated going on here. Wekintor expects incoming data on a specified OSC port. The Myo broadcasts websocket events with data from it's sensors. Myow simply listens for the websocket data using [myo.js](https://github.com/thalmiclabs/myo.js) and translates it to the appropriate OSC messages using [osc.js](https://github.com/colinbdclark/osc.js).
+There is nothing complicated going on here. Wekintor expects incoming data on a specified OSC port. The Myo broadcasts websocket events with data from its sensors. Myow simply listens for the websocket data using [myo.js](https://github.com/thalmiclabs/myo.js) and translates them to the appropriate OSC messages using [osc.js](https://github.com/colinbdclark/osc.js).
 
 ### Installation
 
@@ -46,7 +46,7 @@ If you're not using the default hosts/ports in Wekinator, you can use the option
 
 ### Examples
 
-Train Wekinator using all imu (inertial measurement unit) data on the default ports with no input/output logging:
+Start sending OSC messages containing all imu (inertial measurement unit) data to `/wek/inputs` using the default ports with no input/output logging:
 
 ```
 $ myow
