@@ -1,6 +1,6 @@
 # myow
 
-Myow (probably pronounced meow) is a simple commandline tool used to hook up the [Myo armband](https://www.myo.com/) as an input to [Wekinator](http://www.wekinator.org/).
+Myow (probably pronounced meow) is a command-line tool used to hook up the [Myo armband](https://www.myo.com/) as an input to [Wekinator](http://www.wekinator.org/).
 
 There is nothing complicated going on here. Wekintor expects incoming data on a specified OSC port. The Myo broadcasts websocket events with data from its sensors. Myow simply listens for the websocket data using [myo.js](https://github.com/thalmiclabs/myo.js) and translates them to the appropriate OSC messages using [osc.js](https://github.com/colinbdclark/osc.js).
 
