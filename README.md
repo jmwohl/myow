@@ -31,10 +31,11 @@ $ myow --help
 
     -h, --help         output usage information
     -V, --version      output the version number
-    --inport [n]       The port on which to receive OSC data (default: 12000)
-    --outport [n]      The port on which to send OSC data (default: 6448
-    --inhost [value]   The host on which to receive OSC data (default: 127.0.0.1)
     --outhost [value]  The host on which to send OSC data (default: 127.0.0.1)
+    --outport [n]      The port on which to send OSC data (default: 6448)
+    --inhost [value]   The host on which to receive OSC data, if --receive-osc argument is present (default: 127.0.0.1)
+    --inport [n]       The port on which to receive OSC data, if --receive-osc argument is present (default: 12000)
+    -r, --receive-osc  If present, listen for OSC messages on --inport
     -l, --log          Log osc in/out to console.
     --login            Log osc input only to console.
     --logout           Log osc output only to console.
@@ -54,10 +55,10 @@ $ myow
 
 The imu data looks like: `[ -0.52392578125, -0.0126953125, 0.76611328125, 8.1875, 81.1875, 3.0625, 0.59625244140625, -0.19793701171875, 0.16851806640625, 0.75946044921875 ]`
 
-Maybe we only want to use orientation data and log all OSC messages:
+Maybe we only want to use orientation data and log all outgoing OSC messages:
 
 ```
-$myow orientation -l
+$myow -l orientation
 ```
 
 Then we'll be sending only the last four elements of the imu data along: `[0.59625244140625, -0.19793701171875, 0.16851806640625, 0.75946044921875 ]`
@@ -66,8 +67,10 @@ Then we'll be sending only the last four elements of the imu data along: `[0.596
 
 It can be helpful to inspect the stream of messages that are being sent and received via OSC. You can use `--login`, `--logout`, and `-l` to view input, output, and both message types, respectively.
 
+By default myow will not listen for incoming OSC messages, so as not to interfere with any other applications you have set up to handle output from Wekinator. If you with to inspect what Wekinator is sending out, you can tell myow to receive OSC using the `-r` flag.
+
 ```
-$ myow orientation -l
+$ myow --login -r orientation
 ```
 
 

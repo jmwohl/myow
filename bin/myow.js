@@ -12,10 +12,11 @@ var Myo = require('myo'),
 program
     .version(version)
     .description('Send data from Myo to Wekinator.\n\n  Input value can be one of [accelerometer|orientation|gyroscope|emg|imu] (default: imu)')
-    .option('--inport [n]', 'The port on which to receive OSC data (default: 12000)', parseInt)
-    .option('--outport [n]', 'The port on which to send OSC data (default: 6448', parseInt)
-    .option('--inhost [value]', 'The host on which to receive OSC data (default: 127.0.0.1)')
     .option('--outhost [value]', 'The host on which to send OSC data (default: 127.0.0.1)')
+    .option('--outport [n]', 'The port on which to send OSC data (default: 6448)', parseInt)
+    .option('--inhost [value]', 'The host on which to receive OSC data, if --receive-osc argument is present (default: 127.0.0.1)')
+    .option('--inport [n]', 'The port on which to receive OSC data, if --receive-osc argument is present (default: 12000)', parseInt)
+    .option('-r, --receive-osc', 'If present, listen for OSC messages on --inport')
     .option('-l, --log', 'Log osc in/out to console.')
     .option('--login', 'Log osc input only to console.')
     .option('--logout', 'Log osc output only to console.')
@@ -50,14 +51,18 @@ switch(program.input) {
 function _setupOsc () {
     // build config object
     var _opts = {
-        // This is the port we're listening on, defaults to wekinator's default output port
-        localAddress: program.inhost || '127.0.0.1',
-        localPort: program.inport || 12000,
-
         // This is where we're sending osc messages, defaults to wekinator's input port
         remoteAddress: program.outhost || '127.0.0.1',
         remotePort: program.outport || 6448
     };
+
+    // By default we won't listen for OSC messages so as not to interfere with Wekinator output
+    // --receive-osc flag is useful for setup and debugging
+    if (program.receiveOsc) {
+        // This is the port we're listening on, defaults to wekinator's default output port
+        _opts.localAddress = program.inhost || '127.0.0.1';
+        _opts.localPort = program.inport || 12000;
+    }
 
     debug(_opts);
 
