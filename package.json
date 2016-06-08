@@ -1,7 +1,7 @@
 {
   "name": "myow",
   "version": "0.1.6",
-  "description": "Myow is an easy way to use the Myo as an input device for Wekinator.",
+  "description": "Myow is an easy way to use machine learning with the Myo, as an input device for Wekinator.",
   "main": "index.js",
   "scripts": {
     "patch-release": "npm version patch && npm publish && git push --follow-tags",
@@ -16,7 +16,8 @@
   },
   "keywords": [
     "myo",
-    "wekinator"
+    "wekinator",
+    "machine learning"
   ],
   "author": "= <jon@jonwohl.com>",
   "license": "MIT",
